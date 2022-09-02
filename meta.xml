@@ -1,0 +1,10 @@
+<meta>
+	<config type="client" src="help.xml"/>
+	<script src="superscript_client.lua" type="client" />
+	<script src="superscript_server.lua" type="server" />
+	<script src="object_client.lua" type="client" />
+	<script src="object_server.lua" type="server" />
+	<info author="Ethan94FL" name="Comandi Utili Per Scene Coglione" description="Una lista di comandi per rendere le scene più mongoloidi possibili!" version="1.0" type="misc"/>
+	<config type="client" src="objects.xml"/>
+</meta>
+  
