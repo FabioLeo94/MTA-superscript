@@ -371,8 +371,8 @@ function()
 end)
 
 function openWindow(button, press)
-    if press then
-        if (button == "F5") then
+    if button == "F5" then
+        if press then
             if windowVisible then
                 guiSetVisible(GUIEditor.window[1], false)
                 showCursor(false)
@@ -386,7 +386,7 @@ function openWindow(button, press)
         end
     end
 end
-addEventHandler("onClientKey", root, openWindow)
+addEventHandler("onClientKey", openWindow)
 
 function spawnObject (btn)
     if not windowVisible then return end
