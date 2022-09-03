@@ -96,16 +96,14 @@ function()
     showCursor(true, true)
 end)
 
---TODO: creare fuoco serverside (se possibile)
-function makeFire(command, value)
-    if tonumber(value) then
-        local x, y, z = getElementPosition(localPlayer)
-        createFire(x, y, z, tonumber(value))
-    else
-        outputChatBox("Valore non valido")
+function destroyEmptyVehicles(player, command)
+    local vehicles = getElementsByType("vehicle")
+    for i, vehicle in ipairs(vehicles) do
+        if getVehicleOccupant(vehicle) == false then
+            destroyElement(vehicle)
+        end
     end
-    triggerServerEvent("spawnFlame", getRootElement(), {x, y, z}, tonumber(value))
 end
-addCommandHandler("fire", makeFire)
+addCommandHandler("clearveh", destroyEmptyVehicles)
 
 --TODO: creare generatore di treni con (tipo di treno, tipo di carrozze, numero di carrozze) come parametri

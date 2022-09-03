@@ -41,8 +41,6 @@ Tipi esplosioni:
 
 VEICOLI
 /sv [ID o Nome completo] -- Spawna un veicolo e ti ci ficca alla guida.
-
-GLOSSARIO
-[n] = numero
+/train [LOCOMOTIVA] [VAGONE] [N° VAGONI] -- Spawna un treno con la locomotiva e il numero di vagoni specificati.
 
 </help>

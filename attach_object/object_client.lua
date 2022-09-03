@@ -6,8 +6,17 @@ actionKeys = {
     ["arrow_d"] = "arrow_d",
     ["arrow_l"] = "arrow_l",
     ["arrow_r"] = "arrow_r",
+    ["num_0"] = "num_0",
+    ["num_1"] = "num_1",
     ["num_2"] = "num_2",
+    ["num_3"] = "num_3",
+    ["num_4"] = "num_4",
+    ["num_5"] = "num_5",
+    ["num_6"] = "num_6",
     ["num_8"] = "num_8",
+    ["num_9"] = "num_9",
+    ["num_add"] = "num_add",
+    ["num_sub"] = "num_sub",
 }
 
 --ROTATION
@@ -135,13 +144,14 @@ addEventHandler("onClientResourceStart", resourceRoot,
         addEventHandler("onClientGUIDoubleClick", GUIEditor.gridlist[1], spawnObject, false)
         addEventHandler("onClientGUIClick", GUIEditor.gridlist[1], updatePosTable, false)
         addEventHandler("onClientGUIClick", GUIEditor.button[1], closeWindow, false)
-        addEventHandler("onClientGUIChanged", GUIEditor.edit[1], updatePos, false)
-        addEventHandler("onClientGUIChanged", GUIEditor.edit[2], updatePos, false)
-        addEventHandler("onClientGUIChanged", GUIEditor.edit[3], updatePos, false)
-        addEventHandler("onClientGUIChanged", GUIEditor.edit[4], updatePos, false)
-        addEventHandler("onClientGUIChanged", GUIEditor.edit[5], updatePos, false)
-        addEventHandler("onClientGUIChanged", GUIEditor.edit[6], updatePos, false)
+        addEventHandler("onClientGUIChanged", GUIEditor.edit[1], updatePosX, false)
+        addEventHandler("onClientGUIChanged", GUIEditor.edit[2], updatePosY, false)
+        addEventHandler("onClientGUIChanged", GUIEditor.edit[3], updatePosZ, false)
+        addEventHandler("onClientGUIChanged", GUIEditor.edit[4], updateRotX, false)
+        addEventHandler("onClientGUIChanged", GUIEditor.edit[5], updateRotY, false)
+        addEventHandler("onClientGUIChanged", GUIEditor.edit[6], updateRotZ, false)
         addEventHandler("onClientKey", root, editWithKey)
+        addEventHandler("onClientKey", root, updateScale)
     end
 )
 
@@ -168,7 +178,6 @@ function updatePosTable(btn)
     local itemID = guiGridListGetItemText(GUIEditor.gridlist[1], row, 1)
 
     if attachedPos[tostring(itemID)] then
-        outputDebugString(inspect(attachedPos))
         guiSetText(GUIEditor.edit[1], attachedPos[tostring(itemID)][1])
         guiSetText(GUIEditor.edit[2], attachedPos[tostring(itemID)][2])
         guiSetText(GUIEditor.edit[3], attachedPos[tostring(itemID)][3])
@@ -241,22 +250,112 @@ function editWithKey(btn, press)
         guiSetText(GUIEditor.edit[4], attachedPos[itemID][4])
         guiSetText(GUIEditor.edit[5], attachedPos[itemID][5])
         guiSetText(GUIEditor.edit[6], attachedPos[itemID][6])
+        updatePos()
     else
         return
     end
 
-    updatePos()
 
 end
 
+function updateScale(btn, press)
+    if not windowVisible then return end
+    if not press then return end
+    if not actionKeys[btn] then return end
+    local row, col = guiGridListGetSelectedItem(GUIEditor.gridlist[1])
+    if row == -1 and col == -1 then return end
+    local itemID = guiGridListGetItemText(GUIEditor.gridlist[1], row, 1)
+
+    if guiGridListGetItemText(GUIEditor.gridlist[1], row, 3) == "Disattivato" then return end
+
+    if not attachedPos[tostring(itemID)][7] then
+        attachedPos[tostring(itemID)][7] = 1
+    end
+
+    outputDebugString(tostring(attachedPos[tostring(itemID)][7]))
+    if btn == actionKeys["num_add"] then
+        if getKeyState("lshift") then
+            attachedPos[tostring(itemID)][7] = tonumber(attachedPos[tostring(itemID)][7]) + 0.1
+        else
+            attachedPos[tostring(itemID)][7] = tonumber(attachedPos[tostring(itemID)][7]) + 0.01
+        end
+    end
+
+    if btn == actionKeys["num_sub"] then
+
+        if getKeyState("lshift") then
+            attachedPos[tostring(itemID)][7] = tonumber(attachedPos[tostring(itemID)][7]) - 0.1
+        else
+            attachedPos[tostring(itemID)][7] = tonumber(attachedPos[tostring(itemID)][7]) - 0.01
+        end
+    end
+
+    triggerServerEvent("scalingObject", localPlayer, itemID, attachedPos[tostring(itemID)][7])
+
+end
+
+function updatePosX()
+    if not windowVisible then return end
+        local row, col = guiGridListGetSelectedItem(GUIEditor.gridlist[1])
+        if row == -1 and col == -1 then return end
+        local itemID = guiGridListGetItemText(GUIEditor.gridlist[1], row, 1)
+        attachedPos[tostring(itemID)][1] = guiGetText(GUIEditor.edit[1])
+        updatePos()
+end
+
+function updatePosY()
+    if not windowVisible then return end
+        local row, col = guiGridListGetSelectedItem(GUIEditor.gridlist[1])
+        if row == -1 and col == -1 then return end
+        local itemID = guiGridListGetItemText(GUIEditor.gridlist[1], row, 1)
+        attachedPos[tostring(itemID)][2] = guiGetText(GUIEditor.edit[2])
+        updatePos()
+end
+
+function updatePosZ()
+    if not windowVisible then return end
+        local row, col = guiGridListGetSelectedItem(GUIEditor.gridlist[1])
+        if row == -1 and col == -1 then return end
+        local itemID = guiGridListGetItemText(GUIEditor.gridlist[1], row, 1)
+        attachedPos[tostring(itemID)][3] = guiGetText(GUIEditor.edit[3])
+        updatePos()
+end
+
+function updateRotX()
+    if not windowVisible then return end
+        local row, col = guiGridListGetSelectedItem(GUIEditor.gridlist[1])
+        if row == -1 and col == -1 then return end
+        local itemID = guiGridListGetItemText(GUIEditor.gridlist[1], row, 1)
+        attachedPos[tostring(itemID)][4] = guiGetText(GUIEditor.edit[4])
+        updatePos()
+end
+
+function updateRotY()
+    if not windowVisible then return end
+        local row, col = guiGridListGetSelectedItem(GUIEditor.gridlist[1])
+        if row == -1 and col == -1 then return end
+        local itemID = guiGridListGetItemText(GUIEditor.gridlist[1], row, 1)
+        attachedPos[tostring(itemID)][5] = guiGetText(GUIEditor.edit[5])
+        updatePos()
+end
+
+function updateRotZ()
+    if not windowVisible then return end
+        local row, col = guiGridListGetSelectedItem(GUIEditor.gridlist[1])
+        if row == -1 and col == -1 then return end
+        local itemID = guiGridListGetItemText(GUIEditor.gridlist[1], row, 1)
+        attachedPos[tostring(itemID)][6] = guiGetText(GUIEditor.edit[6])
+        updatePos()
+end
+
 function updatePos()
+    if not windowVisible then return end
     local row, col = guiGridListGetSelectedItem(GUIEditor.gridlist[1])
     local itemID = guiGridListGetItemText(GUIEditor.gridlist[1], row, 1)
 
     if guiGridListGetItemText(GUIEditor.gridlist[1], row, 3) == "Attivato" then
         local ox, oy, oz = guiGetText(GUIEditor.edit[1]), guiGetText(GUIEditor.edit[2]), guiGetText(GUIEditor.edit[3])
         local oxa, oya, oza = guiGetText(GUIEditor.edit[4]), guiGetText(GUIEditor.edit[5]), guiGetText(GUIEditor.edit[6])
-        attachedPos[tostring(itemID)] = {tonumber(ox), tonumber(oy), tonumber(oz), tonumber(oxa), tonumber(oya), tonumber(oza)}
         if tonumber(ox) and tonumber(oy) and tonumber(oz) and tonumber(oxa) and tonumber(oya) and tonumber(oza) then
             triggerServerEvent("editingObject", localPlayer, itemID, {ox, oy, oz, oxa, oya, oza})
         end
@@ -290,6 +389,7 @@ end
 addEventHandler("onClientKey", root, openWindow)
 
 function spawnObject (btn)
+    if not windowVisible then return end
     if btn ~= 'left' then return false end
     local row, col = guiGridListGetSelectedItem(GUIEditor.gridlist[1])
     if row == -1 then return false end

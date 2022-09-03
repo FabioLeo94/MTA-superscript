@@ -124,6 +124,23 @@ function(player, command, value)
         outputChatBox("Usage: /vehalpha [value]", player, 255, 0, 0)
         return
     end
-    
     setElementAlpha(getPedOccupiedVehicle(player), tonumber(value))
 end)
+
+function generateTrain(player, command, engine, trailer, num)
+    LocoMotive = createVehicle ( tonumber(engine), getElementPosition(player) )
+    setTimer(
+        function()
+            local trailers = {}
+            for i=1, tonumber(num) do
+                trailers[i] = createVehicle ( tonumber(trailer), getElementPosition(player))
+                if i == 1 then
+                    attachTrailerToVehicle ( LocoMotive, trailers[i] )
+                else
+                    attachTrailerToVehicle ( trailers[i-1], trailers[i] )
+                end
+            end
+        end, 50, 1)
+    warpPedIntoVehicle(player, LocoMotive)
+end 
+addCommandHandler("train", generateTrain)

@@ -1,10 +1,13 @@
 <meta>
+    <min_mta_version client="1.5.5-9.14060"></min_mta_version>
 	<config type="client" src="help.xml"/>
 	<script src="superscript_client.lua" type="client" />
 	<script src="superscript_server.lua" type="server" />
-	<script src="object_client.lua" type="client" />
-	<script src="object_server.lua" type="server" />
-	<info author="Ethan94FL" name="Comandi Utili Per Scene Coglione" description="Una lista di comandi per rendere le scene più mongoloidi possibili!" version="1.0" type="misc"/>
+	<script src="attach_object/object_client.lua" type="client" />
+	<script src="attach_object/object_server.lua" type="server" />
+	<script src="place_object/place_object_c.lua" type="client" />
+	<script src="place_object/place_object_s.lua" type="server" />
+	<info author="Ethan94FL" name="Comandi Utili Per Scene Coglione" description="Una lista di comandi per rendere le scene più mongoloidi possibili!" version="1.2" type="misc"/>
 	<config type="client" src="objects.xml"/>
 </meta>
   
