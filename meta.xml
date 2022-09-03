@@ -7,5 +7,7 @@
 	<script src="attach_object/object_server.lua" type="server" />
 	<info author="Ethan94FL" name="Comandi Utili Per Scene Coglione" description="Una lista di comandi per rendere le scene più mongoloidi possibili!" version="1.2" type="misc"/>
 	<config type="client" src="objects.xml"/>
+	<file src="pic/gtanomalylogo.png" />
+
 </meta>
   
