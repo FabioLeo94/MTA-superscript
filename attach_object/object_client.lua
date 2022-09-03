@@ -386,7 +386,7 @@ function openWindow(button, press)
         end
     end
 end
-addEventHandler("onClientKey", openWindow)
+addEventHandler("onClientKey", root, openWindow)
 
 function spawnObject (btn)
     if not windowVisible then return end
